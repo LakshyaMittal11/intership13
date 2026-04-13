@@ -9,36 +9,46 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// MySQL connection
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
-});
+// ✅ MySQL connection (IMPORTANT FIX)
+const db = mysql.createConnection(process.env.MYSQL_URL);
 
 db.connect(err => {
-  if (err) console.log(err);
-  else console.log("MySQL Connected");
+  if (err) {
+    console.log("DB Error:", err);
+  } else {
+    console.log("DB Connected ✅");
+  }
 });
 
-// Signup
+// ✅ Signup
 app.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const hashed = await bcrypt.hash(password, 10);
-
-  db.query(
-    "INSERT INTO users (email, password) VALUES (?, ?)",
-    [email, hashed],
-    (err, result) => {
-      if (err) return res.status(500).send(err);
-      res.send("User Registered");
+    if (!email || !password) {
+      return res.status(400).send("Missing fields");
     }
-  );
+
+    const hashed = await bcrypt.hash(password, 10);
+
+    db.query(
+      "INSERT INTO users (email, password) VALUES (?, ?)",
+      [email, hashed],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send("DB Error");
+        }
+        res.send("User Registered ✅");
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
 });
 
-// Login
+// ✅ Login
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
@@ -46,13 +56,19 @@ app.post("/login", (req, res) => {
     "SELECT * FROM users WHERE email=?",
     [email],
     async (err, result) => {
-      if (result.length === 0) return res.send("User not found");
+      if (err) return res.status(500).send("DB Error");
+
+      if (result.length === 0) {
+        return res.send({ message: "User not found" });
+      }
 
       const user = result[0];
 
       const match = await bcrypt.compare(password, user.password);
 
-      if (!match) return res.send("Wrong password");
+      if (!match) {
+        return res.send({ message: "Wrong password" });
+      }
 
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
 
@@ -61,18 +77,20 @@ app.post("/login", (req, res) => {
   );
 });
 
-// Protected route
+// ✅ Protected route
 app.get("/dashboard", (req, res) => {
   const token = req.headers["authorization"];
 
   if (!token) return res.send("No token");
 
   try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    jwt.verify(token, process.env.JWT_SECRET);
     res.send("Welcome to Dashboard 🎉");
   } catch {
     res.send("Invalid token");
   }
 });
 
-app.listen(5000, () => console.log("Server running"));
+// ✅ PORT FIX
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log("Server running 🚀"));

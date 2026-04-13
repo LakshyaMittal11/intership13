@@ -1,18 +1,21 @@
-const BASE_URL = "https://your-backend.onrender.com"; // change after deploy
+const BASE_URL = "https://intership13.onrender.com";
 
+// ✅ Signup
 async function signup() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  await fetch(BASE_URL + "/signup", {
+  const res = await fetch(BASE_URL + "/signup", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({ email, password })
   });
 
-  alert("Registered!");
+  const data = await res.text();
+  alert(data);
 }
 
+// ✅ Login
 async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -24,11 +27,17 @@ async function login() {
   });
 
   const data = await res.json();
-  localStorage.setItem("token", data.token);
 
+  if (!data.token) {
+    alert(data.message || "Login failed ❌");
+    return;
+  }
+
+  localStorage.setItem("token", data.token);
   window.location.href = "dashboard.html";
 }
 
+// ✅ Dashboard
 async function loadDashboard() {
   const token = localStorage.getItem("token");
 
@@ -42,6 +51,7 @@ async function loadDashboard() {
   document.getElementById("data").innerText = data;
 }
 
+// ✅ Logout
 function logout() {
   localStorage.removeItem("token");
   window.location.href = "index.html";
