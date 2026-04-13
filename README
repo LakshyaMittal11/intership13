@@ -1,0 +1,143 @@
+# 🚀 Full Stack Authentication System
+
+A complete full-stack web application that provides secure user authentication using modern web technologies. This project demonstrates real-world development including backend APIs, database integration, and deployment.
+
+---
+
+## 🌐 Live Demo
+
+* 🔗 Frontend: https://your-site.netlify.app
+* 🔗 Backend: https://intership13.onrender.com
+
+---
+
+## 🛠️ Tech Stack
+
+* **Frontend:** HTML, CSS, JavaScript
+* **Backend:** Node.js, Express.js
+* **Database:** MySQL (Railway Cloud)
+* **Authentication:** JWT (JSON Web Tokens)
+* **Deployment:**
+
+  * Frontend → Netlify
+  * Backend → Render
+
+---
+
+## ✨ Features
+
+* 🔐 User Signup & Login
+* 🔑 Secure password hashing using bcrypt
+* 🎫 JWT-based authentication
+* 📊 Protected dashboard route
+* 🌐 Fully deployed live project
+* 🎨 Clean and modern UI
+
+---
+
+## 📂 Project Structure
+
+```
+project/
+ ├── backend/
+ │     ├── server.js
+ │     ├── package.json
+ │     ├── .gitignore
+ │     └── .env (not included in repository)
+ │
+ └── frontend/
+       ├── home.html
+       ├── index.html
+       ├── signup.html
+       ├── dashboard.html
+       ├── style.css
+       └── script.js
+```
+
+---
+
+## ⚙️ Setup Instructions (Local)
+
+### 1️⃣ Clone the Repository
+
+```
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+```
+
+---
+
+### 2️⃣ Backend Setup
+
+```
+cd backend
+npm install
+```
+
+Create a `.env` file inside the backend folder:
+
+```
+MYSQL_URL=your_mysql_connection_string
+JWT_SECRET=your_secret_key
+```
+
+Run the server:
+
+```
+node server.js
+```
+
+---
+
+### 3️⃣ Frontend Setup
+
+Simply open `home.html` in your browser.
+
+---
+
+## 🧱 Database Schema
+
+```
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255),
+  password VARCHAR(255)
+);
+```
+
+---
+
+## 🚀 Deployment
+
+* Frontend hosted on Netlify
+* Backend hosted on Render
+* MySQL database hosted on Railway
+
+---
+
+## 🔐 Security
+
+Sensitive data such as database credentials and JWT secrets are stored using environment variables and are not exposed in the repository.
+
+---
+
+## 🎯 Future Improvements
+
+* 📧 Email validation
+* 👁️ Show/Hide password feature
+* 🎨 Advanced UI/UX improvements
+* 📱 Improved mobile responsiveness
+
+---
+
+## 🙌 Author
+
+* 👨‍💻 Developed by: Lakshya Mittal
+
+---
+
+## ⭐ Conclusion
+
+This project showcases full-stack development skills including authentication, API handling, database management, and deployment.
+
+---
