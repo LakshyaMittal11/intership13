@@ -9,14 +9,23 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// ✅ MySQL connection (IMPORTANT FIX)
-const db = mysql.createConnection(process.env.MYSQL_URL);
+// ✅ Railway MySQL URL parsing (FINAL FIX)
+const url = new URL(process.env.MYSQL_URL);
 
+const db = mysql.createConnection({
+  host: url.hostname,
+  user: url.username,
+  password: url.password,
+  database: url.pathname.replace("/", ""),
+  port: url.port
+});
+
+// ✅ Connect DB
 db.connect(err => {
   if (err) {
-    console.log("DB Error:", err);
+    console.log("❌ DB Error:", err);
   } else {
-    console.log("DB Connected ✅");
+    console.log("✅ DB Connected");
   }
 });
 
@@ -36,14 +45,14 @@ app.post("/signup", async (req, res) => {
       [email, hashed],
       (err, result) => {
         if (err) {
-          console.log(err);
-          return res.status(500).send("DB Error");
+          console.log("❌ Insert Error:", err);
+          return res.status(500).send("DB Insert Error");
         }
         res.send("User Registered ✅");
       }
     );
   } catch (err) {
-    console.log(err);
+    console.log("❌ Server Error:", err);
     res.status(500).send("Server Error");
   }
 });
@@ -77,7 +86,7 @@ app.post("/login", (req, res) => {
   );
 });
 
-// ✅ Protected route
+// ✅ Dashboard
 app.get("/dashboard", (req, res) => {
   const token = req.headers["authorization"];
 
@@ -91,6 +100,6 @@ app.get("/dashboard", (req, res) => {
   }
 });
 
-// ✅ PORT FIX
+// ✅ PORT (IMPORTANT)
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log("Server running 🚀"));
+app.listen(PORT, () => console.log("🚀 Server running"));

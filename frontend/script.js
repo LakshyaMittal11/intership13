@@ -1,6 +1,6 @@
 const BASE_URL = "https://intership13.onrender.com";
 
-// ✅ Signup
+// Signup
 async function signup() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -15,7 +15,7 @@ async function signup() {
   alert(data);
 }
 
-// ✅ Login
+// Login
 async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -37,7 +37,7 @@ async function login() {
   window.location.href = "dashboard.html";
 }
 
-// ✅ Dashboard
+// Dashboard
 async function loadDashboard() {
   const token = localStorage.getItem("token");
 
@@ -51,7 +51,7 @@ async function loadDashboard() {
   document.getElementById("data").innerText = data;
 }
 
-// ✅ Logout
+// Logout
 function logout() {
   localStorage.removeItem("token");
   window.location.href = "index.html";
