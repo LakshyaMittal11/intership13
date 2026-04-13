@@ -6,7 +6,7 @@ A complete full-stack web application that provides secure user authentication u
 
 ## 🌐 Live Demo
 
-* 🔗 Frontend: https://your-site.netlify.app
+* 🔗 Frontend: https://frolicking-cajeta-e29288.netlify.app
 * 🔗 Backend: https://intership13.onrender.com
 
 ---
@@ -61,7 +61,7 @@ project/
 ### 1️⃣ Clone the Repository
 
 ```
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/LakshyaMittal11/intership13
 cd your-repo
 ```
 
